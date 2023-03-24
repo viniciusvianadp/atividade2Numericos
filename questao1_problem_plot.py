@@ -1,4 +1,4 @@
-## 2023.02.22
+## 2023.02.24
 ## Keith Ando Ogawa - keith.ando@usp.br
 ## Vinícius Viana de Paula - viniciusviana@usp.br
 
@@ -7,8 +7,8 @@
 # plots for general implicit one-Step methods.
 
 # problem with unkwnown exact solution 
-#              (1) x'= 0.48999x - 0.67530xy     0<=t<=3
-#              (2) y'= 0.25371y - 0.27724xy     x(0) = 1.0016; y(0) = 0.7015
+#              (1) x'=  0.5446x - 0.7821xy     0<=t<=5
+#              (2) y'= -0.7523y + 1.7995xy     x(0) = 0.4270; y(0) = 0.6871
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -23,8 +23,8 @@ def phi(t1, y1, t2, y2, f):
 
 def f(t, y):
     # bidimensional problem
-    f0 =  0.48999*y[0] - 0.67530*y[0]*y[1]
-    f1 =  0.25371*y[1] - 0.27724*y[0]*y[1]
+    f0 =  0.5446*y[0] - 0.7821*y[0]*y[1]
+    f1 =  -0.7523*y[1] + 1.7995*y[0]*y[1]
     
     return np.array([f0, f1])
 
@@ -56,9 +56,9 @@ def implicitMethod(T, n, yn, tn, f):
 ############################################################################
 
 # other relevant data
-t_n_1 = [0]; t_n_2 = [0]; t_n_3 = [0]; T = 3;        # time interval: t in [t0,T]
-y_n_1 = [np.array([1.0016, 0.7015])]; y_n_2 = [np.array([1.0016, 0.7015])];
-y_n_3 = [np.array([1.0016, 0.7015])]; # initial condition
+t_n_1 = [0]; t_n_2 = [0]; t_n_3 = [0]; T = 5;        # time interval: t in [t0,T]
+y_n_1 = [np.array([0.427, 0.6871])]; y_n_2 = [np.array([0.427, 0.6871])];
+y_n_3 = [np.array([0.427, 0.6871])]; # initial condition
 
 n_1 = 8                # time interval partition (discretization)
 y_n_1, t_n_1 = implicitMethod(T, n_1, y_n_1, t_n_1, f)
