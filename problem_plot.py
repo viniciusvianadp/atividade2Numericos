@@ -55,7 +55,33 @@ def implicitMethod(T, n, yn, tn, f):
 
 ############################################################################
 
-# other relevant data
+def interpolating(x, y): # Returns interpolating polynomial
+    n = len(x) - 1
+    A = []
+    for xi in x:
+        row = [1]
+        for j in range(1, n + 1):
+            row.append(xi ** j)
+        A.append(row)
+    return np.linalg.solve(A, y)
+
+############################################################################
+
+def derivative(A, xi): # Returns the derivative in xi
+    n = len(A) - 1
+    dv = 0
+    for j in range(1, n + 1):
+        dv = dv + j*A[j]*(xi**(j-1)) 
+    return dv
+
+############################################################################
+
+def p(x, coeffs): # Returns the polynomial value for x
+    return coeffs[0] + sum([ai * x ** j for j, ai in enumerate(coeffs[1:], 1)])
+
+############################################################################
+
+# relevant data
 t_n_1 = [0]; t_n_2 = [0]; t_n_3 = [0]; T = 5;        # time interval: t in [t0,T]
 y_n_1 = [np.array([0.427, 0.6871])]; y_n_2 = [np.array([0.427, 0.6871])];
 y_n_3 = [np.array([0.427, 0.6871])]; # initial condition
@@ -70,34 +96,42 @@ n_3 = 256                # time interval partition (discretization)
 y_n_3, t_n_3 = implicitMethod(T, n_3, y_n_3, t_n_3, f)
 
 ## plotting the graphic for x
-plt.plot(t_n_1, y_n_1[:,0], 'k:', label = 'n = 8')
-plt.plot(t_n_2, y_n_2[:,0], 'k--', label = 'n = 128')
-plt.plot(t_n_3, y_n_3[:,0], 'k-', label = 'n = 256')
 
+coeffs = interpolating(t_n_1, y_n_1[:, 0])
+t = np.linspace(min(t_n_1), max(t_n_1), 100)
+pt = [p(ti, coeffs) for ti in t]
+plt.scatter(t, pt, color='#000000', s=0.25)
+
+coeffs = interpolating(t_n_2, y_n_2[:, 0])
+t = np.linspace(min(t_n_2), max(t_n_2), 300)
+pt = [p(ti, coeffs) for ti in t]
+plt.scatter(t, pt, color='#000000', s=1)
 
 plt.xlabel('t   (em unidade de tempo)')
 plt.ylabel('ω(t)  (em unidade de ω)')
 plt.title('Aproximação Numérica da Variável de Estado ω')
-plt.legend()
 plt.show()
 
-## plotting the graphic for y
-plt.plot(t_n_1, y_n_1[:,1], 'k:' , label = 'n = 8')
-plt.plot(t_n_2, y_n_2[:,1], 'k--', label = 'n = 128')
-plt.plot(t_n_3, y_n_3[:,1], 'k-' , label = 'n = 256')
+coeffs = interpolating(t_n_1, y_n_1[:, 1])
+t = np.linspace(min(t_n_1), max(t_n_1), 100)
+pt = [p(ti, coeffs) for ti in t]
+plt.scatter(t, pt, color='#000000', s=0.25)
 
+coeffs = interpolating(t_n_2, y_n_2[:, 1])
+t = np.linspace(min(t_n_2), max(t_n_2), 300)
+pt = [p(ti, coeffs) for ti in t]
+plt.scatter(t, pt, color='#000000', s=1)
 
 plt.xlabel('t   (em unidade de tempo)')
 plt.ylabel('λ(t)  (em unidade de λ)')
 plt.title('Aproximação Numérica da Variável de Estado λ')
-plt.legend()
 plt.show()
 
-  # faz a curva em 2d
+## 2d curve
 plt.plot(y_n_1[:,0], y_n_1[:,1], 'k:' , label='n = 8')
 plt.plot(y_n_2[:,0], y_n_2[:,1], 'k--', label='n = 128')
 plt.plot(y_n_3[:,0], y_n_3[:,1], 'k-' , label='n = 256')
-plt.title('aprox para a curva em 2d')
+plt.title('Aprox para a curva em 2d')
 plt.xlabel('ω (em unidade de ω)')
 plt.ylabel('λ (em unidade de λ)')
 plt.grid(True)
