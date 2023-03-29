@@ -1,4 +1,4 @@
-## 2023.02.24
+## 2023.03.24
 ## Keith Ando Ogawa - keith.ando@usp.br
 ## Vinícius Viana de Paula - viniciusviana@usp.br
 
@@ -7,8 +7,8 @@
 # using Trapezoidal method and SAM to find the solution to a bidimensional problem.
 
 # problem with unkwnown exact solution 
-#              (1) x'=  0.5446x - 0.7821xy     0<=t<=5
-#              (2) y'= -0.7523y + 1.7995xy     x(0) = 0.4270; y(0) = 0.6871
+#              (1) x'=  0.4716x - 0.6696xy     0<=t<=5
+#              (2) y'= -0.2154y + 0.5240xy     x(0) = 0.4270; y(0) = 0.6871
                          
 
 import math
@@ -24,8 +24,8 @@ def phi(t1, y1, t2, y2, f):
 
 def f(t, y):
     # bidimensional problem
-    f0 =  0.5446*y[0] - 0.7821*y[0]*y[1]
-    f1 =  -0.7523*y[1] + 1.7995*y[0]*y[1]
+    f0 =  0.4716*y[0] - 0.6696*y[0]*y[1]
+    f1 =  -0.2154*y[1] + 0.5240*y[0]*y[1]
     
     return np.array([f0, f1])
 
