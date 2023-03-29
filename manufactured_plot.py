@@ -58,25 +58,54 @@ def implicitMethod(T, n, yn, tn, f):
 
 ############################################################################
 
-# other relevant data
-t_n_1 = [1]; t_n_2 = [1]; t_n_3 = [1]; T = 5;        # time interval: t in [t0,T]
-y_n_1 = [np.array([2, 1])]; y_n_2 = [np.array([2, 1])];
-y_n_3 = [np.array([2, 1])]; # initial condition
+def interpolating(x, y): # Returns interpolating polynomial
+    n = len(x) - 1
+    A = []
+    for xi in x:
+        row = [1]
+        for j in range(1, n + 1):
+            row.append(xi ** j)
+        A.append(row)
+    return np.linalg.solve(A, y)
 
-n_1 = 16                # time interval partition (discretization)
+############################################################################
+
+def derivative(A, xi): # Returns the derivative in xi
+    n = len(A) - 1
+    dv = 0
+    for j in range(1, n + 1):
+        dv = dv + j*A[j]*(xi**(j-1)) 
+    return dv
+
+############################################################################
+
+def p(x, coeffs): # Returns the polynomial value for x
+    return coeffs[0] + sum([ai * x ** j for j, ai in enumerate(coeffs[1:], 1)])
+
+############################################################################
+
+# other relevant data
+t_n_1 = [1]; t_n_2 = [1]; T = 5;        # time interval: t in [t0,T]
+y_n_1 = [np.array([2, 1])]; y_n_2 = [np.array([2, 1])]; # initial condition
+
+n_1 = 8                # time interval partition (discretization)
 y_n_1, t_n_1 = implicitMethod(T, n_1, y_n_1, t_n_1, f)
 
-n_2 = 64                # time interval partition (discretization)
+n_2 = 128                # time interval partition (discretization)
 y_n_2, t_n_2 = implicitMethod(T, n_2, y_n_2, t_n_2, f)
 
-n_3 = 128                # time interval partition (discretization)
-y_n_3, t_n_3 = implicitMethod(T, n_3, y_n_3, t_n_3, f)
 
-## plotting the graphic for y1
-plt.plot(t_n_1, y_n_1[:,0], 'k:', label = 'n = 16')
-plt.plot(t_n_2, y_n_2[:,0], 'k--', label = 'n = 64')
-plt.plot(t_n_3, y_n_3[:,0], 'k-', label = 'n = 128')
+## plotting the graphic for x
 
+coeffs_y1 = interpolating(t_n_1, y_n_1[:, 0])
+t_y1 = np.linspace(min(t_n_1), max(t_n_1), 100)
+pt_y1 = [p(ti, coeffs_y1) for ti in t_y1]
+plt.scatter(t_y1, pt_y1, color='#000000', s=0.25, label="n = 8")
+
+coeffs_y1 = interpolating(t_n_2, y_n_2[:, 0])
+t_y1 = np.linspace(min(t_n_2), max(t_n_2), 300)
+pt_y1 = [p(ti, coeffs_y1) for ti in t_y1]
+plt.scatter(t_y1, pt_y1, color='#000000', s=1, label="n = 128")
 
 plt.xlabel('t   (em unidade de tempo)')
 plt.ylabel('y1(t)  (em unidade de y1)')
@@ -84,10 +113,15 @@ plt.title('Aproximação Numérica da Variável de Estado y1')
 plt.legend()
 plt.show()
 
-## plotting the graphic for y2
-plt.plot(t_n_1, y_n_1[:,1], 'k:', label = 'n = 16')
-plt.plot(t_n_2, y_n_2[:,1], 'k--', label = 'n = 64')
-plt.plot(t_n_3, y_n_3[:,1], 'k-', label = 'n = 128')
+coeffs_y2 = interpolating(t_n_1, y_n_1[:, 1])
+t_y2 = np.linspace(min(t_n_1), max(t_n_1), 100)
+pt_y2 = [p(ti, coeffs_y2) for ti in t_y2]
+plt.scatter(t_y2, pt_y2, color='#000000', s=0.25, label="n = 8")
+
+coeffs_y2 = interpolating(t_n_2, y_n_2[:, 1])
+t_y2 = np.linspace(min(t_n_2), max(t_n_2), 300)
+pt_y2 = [p(ti, coeffs_y2) for ti in t_y2]
+plt.scatter(t_y2, pt_y2, color='#000000', s=1, label="n = 128")
 
 
 plt.xlabel('t   (em unidade de tempo)')
@@ -98,8 +132,8 @@ plt.show()
 
 ## exact vs approximated (y1)
 t = np.linspace(1, 5, 65536)
-plt.plot(t, np.log(t) + 2, 'k-', label = 'solução exata')
-plt.plot(t_n_3, y_n_3[:, 0], 'k--', label = 'solução numérica')
+plt.plot(t, np.log(t) + 2, 'k-', label="solução exata")
+plt.scatter(t_y1, pt_y1, color='#000000', s=1, label="solução numérica")
 
 plt.xlabel('t  (em unidade de tempo)')
 plt.ylabel('y1(t)  (em unidade de y1)')
@@ -110,7 +144,7 @@ plt.show()
 ## exact vs approximated (y2)
 t = np.linspace(1, 5, 65536)
 plt.plot(t, (1/t), 'k-', label = 'solução exata')
-plt.plot(t_n_3, y_n_3[:, 1], 'k--', label = 'solução numérica')
+plt.scatter(t_y2, pt_y2, color='#000000', s=1, label="solução numérica")
 
 plt.xlabel('t  (em unidade de tempo)')
 plt.ylabel('y2(t)  (em unidade de y2)')

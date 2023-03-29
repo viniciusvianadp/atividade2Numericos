@@ -100,31 +100,37 @@ y_n_3, t_n_3 = implicitMethod(T, n_3, y_n_3, t_n_3, f)
 coeffs = interpolating(t_n_1, y_n_1[:, 0])
 t = np.linspace(min(t_n_1), max(t_n_1), 100)
 pt = [p(ti, coeffs) for ti in t]
-plt.scatter(t, pt, color='#000000', s=0.25)
+plt.scatter(t, pt, color='#000000', s=0.25, label="n = 8")
 
 coeffs = interpolating(t_n_2, y_n_2[:, 0])
 t = np.linspace(min(t_n_2), max(t_n_2), 300)
 pt = [p(ti, coeffs) for ti in t]
-plt.scatter(t, pt, color='#000000', s=1)
+plt.scatter(t, pt, color='#000000', s=1, label="n = 128")
+print("Valores de ω para (2015-2020): ")
+[print(f"ω({i}) = {p(i, coeffs)}") for i in range(0,6)]
 
 plt.xlabel('t   (em unidade de tempo)')
 plt.ylabel('ω(t)  (em unidade de ω)')
 plt.title('Aproximação Numérica da Variável de Estado ω')
+plt.legend()
 plt.show()
 
 coeffs = interpolating(t_n_1, y_n_1[:, 1])
 t = np.linspace(min(t_n_1), max(t_n_1), 100)
 pt = [p(ti, coeffs) for ti in t]
-plt.scatter(t, pt, color='#000000', s=0.25)
+plt.scatter(t, pt, color='#000000', s=0.25, label="n = 8")
 
 coeffs = interpolating(t_n_2, y_n_2[:, 1])
 t = np.linspace(min(t_n_2), max(t_n_2), 300)
 pt = [p(ti, coeffs) for ti in t]
-plt.scatter(t, pt, color='#000000', s=1)
+plt.scatter(t, pt, color='#000000', s=1, label="n = 128")
+print("\nValores de λ para (2015-2020): ")
+[print(f"λ({i}) = {p(i, coeffs)}") for i in range(0,6)]
 
 plt.xlabel('t   (em unidade de tempo)')
 plt.ylabel('λ(t)  (em unidade de λ)')
 plt.title('Aproximação Numérica da Variável de Estado λ')
+plt.legend()
 plt.show()
 
 ## 2d curve
