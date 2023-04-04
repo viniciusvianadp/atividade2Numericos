@@ -1,5 +1,4 @@
 ## 2023.03.29
-## Vinícius Viana de Paula - viniciusviana@usp.br
 
 # MAP3122
 
