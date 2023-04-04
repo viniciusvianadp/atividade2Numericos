@@ -82,28 +82,36 @@ def p(x, coeffs): # Returns the polynomial value for x
 ############################################################################
 
 # relevant data
-t_n_1 = [0]; t_n_2 = [0]; t_n_3 = [0]; T = 5;        # time interval: t in [t0,T]
+t_n_1 = [0]; t_n_2 = [0]; t_n_3 = [0]; t_n_4 = [0]; T = 5;        # time interval: t in [t0,T]
 y_n_1 = [np.array([0.427, 0.6871])]; y_n_2 = [np.array([0.427, 0.6871])];
-y_n_3 = [np.array([0.427, 0.6871])]; # initial condition
+y_n_3 = [np.array([0.427, 0.6871])]; y_n_4 = [np.array([0.427, 0.6871])]; # initial condition
 
-n_1 = 8                # time interval partition (discretization)
+n_1 = 4                # time interval partition (discretization)
 y_n_1, t_n_1 = implicitMethod(T, n_1, y_n_1, t_n_1, f)
 
-n_2 = 128                # time interval partition (discretization)
+n_2 = 64                # time interval partition (discretization)
 y_n_2, t_n_2 = implicitMethod(T, n_2, y_n_2, t_n_2, f)
 
-n_3 = 256                # time interval partition (discretization)
+n_3 = 128                # time interval partition (discretization)
 y_n_3, t_n_3 = implicitMethod(T, n_3, y_n_3, t_n_3, f)
+
+n_4 = 8                # time interval partition (discretization)
+y_n_4, t_n_4 = implicitMethod(T, n_4, y_n_4, t_n_4, f)
 
 ## plotting the graphic for x
 
 coeffs = interpolating(t_n_1, y_n_1[:, 0])
 t = np.linspace(min(t_n_1), max(t_n_1), 100)
 pt = [p(ti, coeffs) for ti in t]
-plt.scatter(t, pt, color='#000000', s=0.25, label="n = 8")
+plt.scatter(t, pt, color='#000000', s=0.25, label="n = 4")
 
 coeffs = interpolating(t_n_2, y_n_2[:, 0])
 t = np.linspace(min(t_n_2), max(t_n_2), 300)
+pt = [p(ti, coeffs) for ti in t]
+plt.scatter(t, pt, color='#000000', s=0.5, label="n = 64")
+
+coeffs = interpolating(t_n_3, y_n_3[:, 0])
+t = np.linspace(min(t_n_3), max(t_n_3), 300)
 pt = [p(ti, coeffs) for ti in t]
 plt.scatter(t, pt, color='#000000', s=1, label="n = 128")
 print("Valores de ω para (2015-2020): ")
@@ -118,13 +126,17 @@ plt.show()
 coeffs = interpolating(t_n_1, y_n_1[:, 1])
 t = np.linspace(min(t_n_1), max(t_n_1), 100)
 pt = [p(ti, coeffs) for ti in t]
-plt.scatter(t, pt, color='#000000', s=0.25, label="n = 8")
+plt.scatter(t, pt, color='#000000', s=0.25, label="n = 4")
 
 coeffs = interpolating(t_n_2, y_n_2[:, 1])
 t = np.linspace(min(t_n_2), max(t_n_2), 300)
 pt = [p(ti, coeffs) for ti in t]
+plt.scatter(t, pt, color='#000000', s=0.5, label="n = 64")
+
+coeffs = interpolating(t_n_3, y_n_3[:, 1])
+t = np.linspace(min(t_n_3), max(t_n_3), 300)
+pt = [p(ti, coeffs) for ti in t]
 plt.scatter(t, pt, color='#000000', s=1, label="n = 128")
-print("\nValores de λ para (2015-2020): ")
 [print(f"λ({i}) = {p(i, coeffs)}") for i in range(0,6)]
 
 plt.xlabel('t   (em unidade de tempo)')
@@ -134,10 +146,10 @@ plt.legend()
 plt.show()
 
 ## 2d curve
-plt.plot(y_n_1[:,0], y_n_1[:,1], 'k:' , label='n = 8')
+plt.plot(y_n_4[:,0], y_n_4[:,1], 'k:' , label='n = 8')
 plt.plot(y_n_2[:,0], y_n_2[:,1], 'k--', label='n = 128')
 plt.plot(y_n_3[:,0], y_n_3[:,1], 'k-' , label='n = 256')
-plt.title('Aprox para a curva em 2d')
+plt.title('Aproximação para a curva em 2d')
 plt.xlabel('ω (em unidade de ω)')
 plt.ylabel('λ (em unidade de λ)')
 plt.grid(True)
